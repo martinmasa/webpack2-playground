@@ -19,6 +19,11 @@ module.exports = {
           fallback: 'style-loader',
           publicPath: '/dist'
         })
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
       }
     ]
   },
