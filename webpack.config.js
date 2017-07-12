@@ -5,10 +5,13 @@ const path = require('path');
 
 
 module.exports = {
-  entry: './src/app.js',
+  entry: {
+    app: './src/app.js',
+    contact: './src/contact.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'app.bundle.js'
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [
@@ -40,7 +43,18 @@ module.exports = {
         collapseWhitespace: true
       },
       hash: true,
+      excludeChunks: ['contact'],
       template: './src/index.ejs' // Load a custom template (ejs by default see the FAQ for details)
+    }),
+    new HTMLWebpackPlugin({
+      title: 'Contact page',
+      minify: {
+        collapseWhitespace: true
+      },
+      hash: true,
+      chunks: ['contact'],
+      filename: 'contact.html',
+      template: './src/contact.ejs' // Load a custom template (ejs by default see the FAQ for details)
     }),
     new ExtractTextWebpackPlugin({
       filename: 'app.css',
