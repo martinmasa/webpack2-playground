@@ -1,8 +1,8 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 const path = require('path');
-
 
 module.exports = {
   entry: {
@@ -72,7 +72,8 @@ module.exports = {
     new ExtractTextWebpackPlugin({
       filename: 'app.css',
       allChunks: true,
-      disable: false
-    })
+      disable: true
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ]
 };
