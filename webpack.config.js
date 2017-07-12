@@ -27,6 +27,10 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: ['babel-loader']
+      },
+      {
+        test: /\.pug$/,
+        use: ['html-loader', 'pug-html-loader']
       }
     ]
   },
@@ -55,6 +59,15 @@ module.exports = {
       chunks: ['contact'],
       filename: 'contact.html',
       template: './src/contact.ejs' // Load a custom template (ejs by default see the FAQ for details)
+    }),
+    new HTMLWebpackPlugin({
+      title: 'Pug Home',
+      minify: {
+        collapseWhitespace: true
+      },
+      hash: true,
+      filename: 'pug/index.html',
+      template: './src/pug/index.pug' // Load a custom template (ejs by default see the FAQ for details)
     }),
     new ExtractTextWebpackPlugin({
       filename: 'app.css',
