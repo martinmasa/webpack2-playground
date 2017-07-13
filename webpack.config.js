@@ -2,7 +2,19 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const path = require('path');
+
+let cssConfig = ['style-loader', 'css-loader', 'sass-loader'];
+
+if (isProd) {
+  cssConfig = ExtractTextWebpackPlugin.extract({
+    use: ['css-loader', 'sass-loader'],
+    fallback: 'style-loader',
+    publicPath: '/dist'
+  });
+}
 
 module.exports = {
   entry: {
@@ -17,11 +29,7 @@ module.exports = {
     rules: [
       { 
         test: /\.scss$/, 
-        use: ExtractTextWebpackPlugin.extract({
-          use: ['css-loader', 'sass-loader'],
-          fallback: 'style-loader',
-          publicPath: '/dist'
-        })
+        use: cssConfig
       },
       {
         test: /\.js$/,
@@ -72,7 +80,7 @@ module.exports = {
     new ExtractTextWebpackPlugin({
       filename: 'app.css',
       allChunks: true,
-      disable: true
+      disable: !isProd
     }),
     new webpack.HotModuleReplacementPlugin()
   ]
