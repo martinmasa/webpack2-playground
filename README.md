@@ -1,3 +1,3 @@
-## Webpack 2+ demo
+## Webpack 2+ Playground
 
-Inspire by [this youtube playlist](https://www.youtube.com/watch?v=JdGnYNtuEtE&list=PLkEZWD8wbltnRp6nRR8kv97RbpcUdNawY) by Petr Tichy
+Inspired by [this youtube playlist](https://www.youtube.com/watch?v=JdGnYNtuEtE&list=PLkEZWD8wbltnRp6nRR8kv97RbpcUdNawY) by [Petr Tichy](https://github.com/ihatetomatoes).
