@@ -2,6 +2,8 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const bootstrapEntryPoints = require('./webpack.bootstrap.config');
+const glob = require('glob');
+const PurifyCSSPlugin = require('purifycss-webpack');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -101,7 +103,7 @@ module.exports = {
       hash: true,
       excludeChunks: ['contact'],
       filename: 'bootstrap.html',
-      template: './src/bootstrap.ejs' // Load a custom template (ejs by default see the FAQ for details)
+      template: './src/bootstrap.html' // Load a custom template (ejs by default see the FAQ for details)
     }),
     new HTMLWebpackPlugin({
       title: 'Pug Home',
@@ -117,6 +119,10 @@ module.exports = {
       allChunks: true,
       disable: !isProd
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new PurifyCSSPlugin({
+      // Give paths to parse for rules. These should be absolute!
+      paths: glob.sync(path.join(__dirname, 'src/*.html')),
+    })
   ]
 };
