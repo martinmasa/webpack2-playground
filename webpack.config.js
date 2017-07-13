@@ -39,6 +39,14 @@ module.exports = {
       {
         test: /\.pug$/,
         use: ['html-loader', 'pug-html-loader']
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          'file-loader?name=images/[name].[ext]',  
+          // 'file-loader?name=[name].[ext]&outputPath=images/',  // didn't have to specify &publicPath=images/
+          'image-webpack-loader'
+        ]
       }
     ]
   },
