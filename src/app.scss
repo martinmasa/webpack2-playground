@@ -1,9 +1,14 @@
-body {
-    background-color: pink;
-    background: url('./images/html5.png') center no-repeat;
+@import 'bootstrap/customizations.scss';
 
-    h1, 
-    p {
-        color: black;
-    }
+body {
+  background-color: pink;
+  // background: url('./images/html5.png') center no-repeat;
+
+  h1 {
+    color: $brand-success;
+  }
+
+  p {
+    color: black;
+  }
 }

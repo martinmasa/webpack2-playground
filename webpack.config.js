@@ -1,6 +1,7 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -16,10 +17,14 @@ if (isProd) {
   });
 }
 
+const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
+
+
 module.exports = {
   entry: {
     app: './src/app.js',
-    contact: './src/contact.js'
+    contact: './src/contact.js',
+    bootstrap: bootstrapConfig
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -47,7 +52,19 @@ module.exports = {
           // 'file-loader?name=[name].[ext]&outputPath=images/',  // didn't have to specify &publicPath=images/
           'image-webpack-loader'
         ]
-      }
+      },
+      { 
+        test: /\.(woff2?|svg)$/, 
+        use: 'url-loader?limit=10000&name=fonts/[name].[ext]' 
+      },
+      { 
+        test: /\.(ttf|eot)$/, 
+        use: 'file-loader?name=fonts/[name].[ext]' 
+      },
+      { 
+        test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/, 
+        use: 'imports-loader?jQuery=jquery' 
+      },
     ]
   },
   devServer: {
@@ -77,6 +94,16 @@ module.exports = {
       template: './src/contact.ejs' // Load a custom template (ejs by default see the FAQ for details)
     }),
     new HTMLWebpackPlugin({
+      title: 'Bootstrap',
+      minify: {
+        collapseWhitespace: true
+      },
+      hash: true,
+      excludeChunks: ['contact'],
+      filename: 'bootstrap.html',
+      template: './src/bootstrap.ejs' // Load a custom template (ejs by default see the FAQ for details)
+    }),
+    new HTMLWebpackPlugin({
       title: 'Pug Home',
       minify: {
         collapseWhitespace: true
@@ -86,7 +113,7 @@ module.exports = {
       template: './src/pug/index.pug' // Load a custom template (ejs by default see the FAQ for details)
     }),
     new ExtractTextWebpackPlugin({
-      filename: 'app.css',
+      filename: 'css/[name].css',
       allChunks: true,
       disable: !isProd
     }),
